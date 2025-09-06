@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Header } from './components/Header';
 import { SearchCard } from './components/SearchCard';
 import { ResultCard } from './components/ResultCard';
+import { Footer } from './components/Footer';
 import { fetchCompanyInfo } from './services/geminiService';
 import type { CompanyInfo } from './types';
 
@@ -42,6 +43,7 @@ const App: React.FC = () => {
             </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };
