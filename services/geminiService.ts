@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 import type { CompanyInfo } from "../types";
 
 // FIX: Initialize GoogleGenAI directly with process.env.API_KEY as per guidelines.
@@ -77,5 +77,58 @@ export const fetchCompanyInfo = async (companyName: string, companyAddress: stri
        }
     }
     throw new Error("Failed to fetch company information from the AI model.");
+  }
+};
+
+export const extractInfoFromImage = async (base64ImageData: string, mimeType: string): Promise<{ company_name: string; company_address: string }> => {
+  const imagePart = {
+    inlineData: {
+      data: base64ImageData,
+      mimeType: mimeType,
+    },
+  };
+
+  const textPart = {
+    text: `From the attached image of a business card or company sign, identify the company name and the company address.
+For the address, provide only the prefecture and city (e.g., '東京都千代田区').
+Return the result as a single JSON object. If you cannot find the information, return an empty string for the respective value.`
+  };
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: { parts: [imagePart, textPart] },
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            company_name: {
+              type: Type.STRING,
+              description: "The name of the company.",
+            },
+            company_address: {
+              type: Type.STRING,
+              description: "The company's address, including prefecture and city.",
+            },
+          },
+        },
+      },
+    });
+
+    const jsonString = response.text.trim();
+    if (!jsonString) {
+      throw new Error("API returned an empty response from image analysis.");
+    }
+
+    const parsedJson = JSON.parse(jsonString);
+    return parsedJson as { company_name: string; company_address: string };
+
+  } catch (error) {
+    console.error("Gemini image analysis failed:", error);
+    if (error instanceof Error && error.message.includes('API key not valid')) {
+      throw new Error("Invalid API Key. Please check your configuration.");
+    }
+    throw new Error("Failed to extract information from the image.");
   }
 };

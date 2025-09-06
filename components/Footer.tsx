@@ -1,8 +1,8 @@
 import React from 'react';
 
 // Manually update these values to reflect the latest GitHub version and commit date.
-const GITHUB_VERSION = 'v0.3';
-const GITHUB_TIMESTAMP = '2025-09-06';
+const GITHUB_VERSION = 'v0.4';
+const GITHUB_TIMESTAMP = '2025-09-07';
 
 export const Footer: React.FC = () => {
   return (
