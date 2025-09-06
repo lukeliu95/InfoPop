@@ -41,6 +41,13 @@ const ResultSkeleton: React.FC = () => (
     </div>
 );
 
+const PhoneIcon: React.FC = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+    </svg>
+);
+
+
 const InfoItem: React.FC<{ label: string; value?: string | null; children?: React.ReactNode }> = ({ label, value, children }) => {
   const content = children || value;
   if (!content || content === '-') {
@@ -131,7 +138,14 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, isLoading, error
                     <InfoItem label="Employees" value={result.employee_count} />
                 </div>
                 <div className="px-4 sm:px-6">
-                    <InfoItem label="Phone Number" value={result.phone_number} />
+                    <InfoItem label="Phone Number">
+                        {result.phone_number && result.phone_number !== '-' && (
+                            <a href={`tel:${result.phone_number.replace(/[^0-9+]/g, '')}`} className="inline-flex items-center space-x-2 text-slate-800 hover:text-black underline decoration-dotted">
+                                <span>{result.phone_number}</span>
+                                <PhoneIcon />
+                            </a>
+                        )}
+                    </InfoItem>
                 </div>
                 <div className="px-4 sm:px-6">
                     <InfoItem label="Listing Status" value={result.listing_status} />

@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
           <div className="flex items-center">
             <a href="#" className="flex items-center space-x-3">
               <span className="font-bold text-2xl text-slate-800 tracking-tight">
-                InfoPop
+                GBase InfoPop
               </span>
             </a>
           </div>

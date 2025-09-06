@@ -86,7 +86,7 @@ export const SearchCard: React.FC<SearchCardProps> = ({ onSearch, isLoading }) =
             Company Information Screener
         </h1>
         <p className="text-slate-500 max-w-xl mx-auto mb-8">
-            Enter a company name, or use your camera to scan a business card. Our AI will find its official website and summarize key information for you.
+            Enter a company name, or use your camera to scan a business card. Our AI will find its official website and summarize key information for you. For more sales resources <a target="_blank" href="https://s.gbase.ai"><b>GBaseGTM</b></a>
         </p>
       <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
         <div className="space-y-4">
