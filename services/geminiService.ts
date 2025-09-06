@@ -8,17 +8,30 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const generatePrompt = (companyName: string, companyAddress: string): string => {
   const addressPart = companyAddress ? ` located at "${companyAddress}"` : "";
   // FIX: Using standard markdown backticks for JSON code block.
-  return `Please find the official website for the company named "${companyName}"${addressPart}.
-After finding the website, analyze its homepage content and provide the following information.
-Do not use information from any other sources besides the company's official homepage.
+  return `Please find the official website and corporate information for the company named "${companyName}"${addressPart}.
+After finding the information, provide the following details.
+Crucially, after identifying the official URL, analyze the content of the website (especially pages like "About Us", "Company Profile", etc.) to generate a detailed company introduction.
+Do not use information from any other sources besides official registries and the company's official homepage.
 
 Return your response as a single JSON object inside a markdown code block (\`\`\`json).
 
-The JSON object must have the following structure:
+The JSON object must have the following structure, using the specified keys. If a value is not available, return "-" or null.
 {
-  "company_url": "The full, official URL of the company's website.",
-  "summary": "A brief, concise summary of the company (2-3 sentences max).",
-  "overview": "A more detailed overview of the company, including its mission, products, or services as described on the homepage."
+  "company_name": "企業名 - Official company name",
+  "furigana": "フリガナ - Phonetic reading of the company name",
+  "address": "住所 - Full company address",
+  "corporate_number": "法人番号 - Corporate number",
+  "representative_name": "代表者名 - Name of the representative",
+  "industry": "業種 - Industry or business category",
+  "url": "URL - The full, official URL of the company's website.",
+  "founded_date": "設立 - Date of establishment",
+  "capital": "資本金 - Amount of capital",
+  "employee_count": "従業員数 - Number of employees",
+  "phone_number": "電話番号 - Official phone number",
+  "listing_status": "上場区分 - Listing status (e.g., Unlisted)",
+  "stock_code": "証券コード - Stock code, if applicable",
+  "invoice_registration_number": "インボイス登録番号 - Invoice registration number",
+  "introduction": "企業の詳細紹介 - A detailed introduction of the company summarized from its official website."
 }
 `;
 };
